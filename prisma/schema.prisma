@@ -20,13 +20,13 @@ model Account {
   type              String
   provider          String
   providerAccountId String
-  refreshToken      String?   @db.Text
-  accessToke        String?   @db.Text
-  expiresAt         DateTime?
-  tokenType         String?
+  refresh_token     String?   @map("refreshToken") @db.Text
+  access_token      String?   @map("accessToke") @db.Text
+  expires_at        DateTime? @map("expiresAt")
+  token_type        String?   @map("tokenType")
   scope             String?
-  idToken           String?   @db.Text
-  sessionState      String?
+  id_token          String?   @map("idToken") @db.Text
+  session_state     String?   @map("sessionState")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -50,15 +50,15 @@ model VerificationToken {
 }
 
 model User {
-  id                String        @id @default(cuid())
-  name              String?
-  email             String?       @unique
-  emailVerification DateTime?
-  image             String?
-  accounts          Account[]
-  sessions          Session[]
-  jobs              Job[]         @relation("PostedJobs")
-  applications      Application[]
+  id            String        @id @default(cuid())
+  name          String?
+  email         String?       @unique
+  emailVerified DateTime?     @map("emailVerification")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  jobs          Job[]         @relation("PostedJobs")
+  applications  Application[]
 }
 
 model Job {
